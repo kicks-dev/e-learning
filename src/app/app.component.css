@@ -1,0 +1,36 @@
+.header-container {
+
+  height: 5vh;
+}
+
+.main-container{
+
+  height: 90vh;
+}
+
+.footer-container {
+
+  height: 5vh;
+}
+
+div.text-right {
+
+  text-align: right;
+}
+
+span.fill-remaining-space {
+
+  flex: 1 1 auto;
+}
+
+
+.logo {
+
+  font-family: vani;
+  font-style: italic;
+}
+
+div.full-width {
+
+  width: 100vw;
+}

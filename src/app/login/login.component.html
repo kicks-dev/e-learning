@@ -1,0 +1,30 @@
+<div class="center-box">
+  <div>
+    <mat-card>
+      <form class="center-text" #loginForm="ngForm" (ngSubmit)="onClickLogin()">
+        <div>
+          <div class="container">
+            <mat-icon >email</mat-icon>
+            <mat-form-field class="full-width">
+              <input id="email" name="email" #email="ngModel" required email type="email" [(ngModel)]="loginInfo.email" (focus)="onFocus()" matInput placeholder="email">
+              <mat-error *ngIf="email.errors?.required">メールアドレスは入力必須です。</mat-error>
+              <mat-error *ngIf="email.errors?.email && !email.errors?.required">メールアドレスは正しい形式で入力してください。</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="margin-top container">
+          <mat-icon>lock</mat-icon>
+          <mat-form-field class="full-width">
+            <input id="password" name="password" required #password="ngModel" type="password" [(ngModel)]="loginInfo.password" (focus)="onFocus()" matInput placeholder="password">
+            <mat-error >パスワードは入力必須です。</mat-error>
+          </mat-form-field>
+        </div>
+        <button [disabled]="loginForm.invalid" type="submit" mat-button >ログイン</button>
+        <div>
+          <p [hidden]= "!loginInfo.invalid">メールアドレスまたはパスワードが違います。</p>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</div>
+

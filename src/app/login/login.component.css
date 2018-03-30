@@ -1,0 +1,29 @@
+.center-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+.center-box>div {
+  width: 400px;
+  height: 200px;
+}
+.container {
+  display:flex;
+  height: 100%;
+}
+
+
+.center-text {
+
+  text-align: center;
+}
+.margin-top {
+
+  margin-top: 10px;
+}
+.full-width {
+
+  width:100%;
+}

@@ -1,0 +1,19 @@
+<h4>
+  {{(course | async)?.title}}コース /  {{(phase | async)?.title}}
+</h4>
+<div class="controller-panel">
+
+</div>
+<!-- PDF 画面　-->
+<div class="w3-margin pdf-container">
+
+  <pdf-viewer [src]="pdfSrc"
+              [render-text]="false"
+              [stick-to-page]="false"
+              [show-all]="false"
+              [page]="1"
+              [original-size]="false"
+              [autoresize]="true"
+              [zoom]="1"
+              class="fix-container" ></pdf-viewer>
+</div>

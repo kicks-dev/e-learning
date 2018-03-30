@@ -1,0 +1,16 @@
+<h4>
+  {{(course | async)?.title}}コース
+</h4>
+<h4>
+  学習フェーズ選択
+</h4>
+<button mat-button (click)="onClickBack()"><mat-icon>reply</mat-icon></button>
+<div>
+  <mat-radio-group >
+    <ng-container *ngFor="let phase of phases | async">
+    <mat-radio-button (change)="onChange(phase.id)" value={{phase.id}}>{{phase.title}} {{phase.description}}</mat-radio-button><br/>
+  </ng-container>
+  </mat-radio-group>
+</div>
+<button mat-button [disabled]="selectedPhase == null" (click)="onClick()">開始</button>
+
