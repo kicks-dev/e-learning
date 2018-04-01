@@ -23,6 +23,7 @@ import { MatDividerModule,
 import { MainComponent } from './main/main.component';
 import { AuthService } from './providers/auth.service';
 import { CourseService } from './providers/course.service';
+import { PdfService } from './providers/pdf.service';
 import { PhaseComponent } from './phase/phase.component';
 import { StudyComponent } from './study/study.component';
 
@@ -61,7 +62,7 @@ const appRoutes: Routes = [
     MatRadioModule,
     MatToolbarModule
   ],
-  providers: [AuthService, CourseService],
+  providers: [AuthService, CourseService, PdfService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

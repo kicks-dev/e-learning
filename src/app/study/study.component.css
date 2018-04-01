@@ -1,9 +1,10 @@
 div.pdf-container {
 
   max-width: 180%;
-  max-height: 80%;
-  border: medium solid red;
+  max-height: 75%;
+  border: medium solid;
   overflow-y: auto;
+
 }
 pdf-viewer.fix-container {
 

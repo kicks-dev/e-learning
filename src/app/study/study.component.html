@@ -1,19 +1,26 @@
 <h4>
   {{(course | async)?.title}}コース /  {{(phase | async)?.title}}
 </h4>
-<div class="controller-panel">
+<div class="w3-center controller-panel">
+  <div class="w3-bar">
+    <a mat-icon-button (click)="onClickLeft()"><mat-icon>keyboard_arrow_left</mat-icon></a>
+    <span [hidden]="pageInfo.hidden"> {{pageInfo.currentPage}} / {{pageInfo.totalPages}} </span>
+    <a mat-icon-button (click)="onClickRight()"><mat-icon>keyboard_arrow_right</mat-icon></a>
+  </div>
 
 </div>
 <!-- PDF 画面　-->
-<div class="w3-margin pdf-container">
+
+<div class="w3-rest w3-margin pdf-container">
 
   <pdf-viewer [src]="pdfSrc"
               [render-text]="false"
               [stick-to-page]="false"
               [show-all]="false"
-              [page]="1"
+              [(page)]="pageInfo.currentPage"
               [original-size]="false"
               [autoresize]="true"
               [zoom]="1"
+              (after-load-complete)="onLoadPdf($event)"
               class="fix-container" ></pdf-viewer>
 </div>

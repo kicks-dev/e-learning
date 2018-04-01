@@ -42,5 +42,5 @@ export class PhaseComponent implements OnInit, OnDestroy {
 
    onClickBack() {
     this.router.navigate(['']);
-  };
+  }
 }

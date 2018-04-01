@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { LoginInfo } from '../interface/login-info';
 import { UserInfo } from '../interface/user-info';
+import * as firebase from 'firebase/app';
 
 @Injectable()
 export class AuthService {
@@ -15,10 +16,16 @@ export class AuthService {
 
   }
 
-  loginWithEmail(loginInfo: LoginInfo) {
+  async loginWithEmail(loginInfo: LoginInfo) {
+
     console.log('loginInfo.email = ' + loginInfo.email);
-    return this.afAuth.auth.signInWithEmailAndPassword(loginInfo.email, loginInfo.password);
+    const persistence = await this.afAuth.auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+
+    const login = await this.afAuth.auth.signInWithEmailAndPassword(loginInfo.email, loginInfo.password);
+
+    return login;
   }
+
   logout() {
     console.log('logout called');
     this.afAuth.auth.signOut();

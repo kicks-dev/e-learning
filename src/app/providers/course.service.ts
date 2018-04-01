@@ -36,7 +36,7 @@ export class CourseService {
     });
   }
 
-  getPhaseById(id: string){
+  getPhaseById(id: string) {
     return this.afs.doc<PhaseInfo>('phases/' + id).valueChanges();
   }
 }
