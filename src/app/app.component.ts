@@ -26,7 +26,8 @@ export class AppComponent implements OnInit {
        this.userInfo = null;
 
      } else {
-        this.userInfo = this.authService.getUserInfo(auth.uid);
+        this.userInfo = this.authService.getUserInfo(auth.email);
+        debugger;
      }
    });
   }

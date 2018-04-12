@@ -31,8 +31,8 @@ export class AuthService {
     this.afAuth.auth.signOut();
   }
 
-  getUserInfo(uid: String) {
-    console.log('getUserInfo uid = ' + uid);
-    return this.afs.collection<UserInfo>('users', ref => ref.where('uid', '==', uid)).valueChanges().map(list => list[0]);
+  getUserInfo(email: String) {
+    console.log('getUserInfo uid = ' + email);
+    return this.afs.doc<UserInfo>('users/' + email).valueChanges();
   }
 }

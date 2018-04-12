@@ -39,6 +39,9 @@ export class CourseService {
   getPhaseById(id: string) {
     return this.afs.doc<PhaseInfo>('phases/' + id).valueChanges();
   }
+  getCompletedPhase(courseId: string, uid: string) {
+    return this.afs.collection<PhaseInfo[]>('atendedPhases', ref => ref.where('uid', '==', uid).where('courseId', '==', courseId)).valueChanges();
+  }
 }
 
 

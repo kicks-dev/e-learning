@@ -4,4 +4,6 @@ export interface PhaseInfo {
   courseId: string;
   title: string;
   content: string;
+  startDateTime: Date;
+  endDateTime: Date;
 }
