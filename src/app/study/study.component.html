@@ -1,6 +1,7 @@
 <h4>
   {{(course | async)?.title}}コース /  {{(phase | async)?.title}}
 </h4>
+<button mat-button (click)="onClickBack()"><mat-icon>reply</mat-icon></button>
 <div class="w3-center controller-panel">
   <div class="w3-bar">
     <a mat-icon-button (click)="onClickLeft()"><mat-icon>keyboard_arrow_left</mat-icon></a>
@@ -22,5 +23,6 @@
               [autoresize]="true"
               [zoom]="1"
               (after-load-complete)="onLoadPdf($event)"
-              class="fix-container" ></pdf-viewer>
+              class="fix-container"
+              (on-progress)="onProgress($event)" ></pdf-viewer>
 </div>

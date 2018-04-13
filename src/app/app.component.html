@@ -4,10 +4,19 @@
   <span class="logo">SystemLamp</span>
 
 </mat-toolbar>
+
 <div class="w3-container main-container">
-  <div class="text-right" [hidden]="userInfo==null">
-    <p>{{(userInfo| async)?.name}}様</p>
-    <button (click)="onClickLogout()">ログアウト</button>
+  <div class="w3-row text-right" [hidden]="userInfo==null">
+    <span>{{(userInfo| async)?.name}}様</span>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="onClickLogout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>ログアウト</span>
+        </button>
+      </mat-menu>
   </div>
   <router-outlet></router-outlet>
 </div>

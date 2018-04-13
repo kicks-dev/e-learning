@@ -19,7 +19,8 @@ import { MatDividerModule,
   MatTooltipModule,
   MatListModule,
   MatRadioModule,
-  MatToolbarModule } from '@angular/material';
+  MatMenu,
+  MatMenuModule} from '@angular/material';
 import { MainComponent } from './main/main.component';
 import { AuthService } from './providers/auth.service';
 import { CourseService } from './providers/course.service';
@@ -30,8 +31,8 @@ import { StudyComponent } from './study/study.component';
 const appRoutes: Routes = [
   { path: '', component: MainComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'phase/:id', component: PhaseComponent },
-  { path: 'study/:id', component: StudyComponent }
+  { path: 'phase/:courseId', component: PhaseComponent },
+  { path: 'study/:phaseId', component: StudyComponent }
 ];
 
 @NgModule({
@@ -60,7 +61,7 @@ const appRoutes: Routes = [
     MatTooltipModule,
     MatListModule,
     MatRadioModule,
-    MatToolbarModule
+    MatMenuModule
   ],
   providers: [AuthService, CourseService, PdfService],
   bootstrap: [AppComponent]

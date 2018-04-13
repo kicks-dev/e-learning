@@ -20,8 +20,7 @@ export class MainComponent implements OnInit {
   }
   onClick(course: CourseInfo) {
     console.log('selected course = ' + course.title);
-    this.router.navigate(['phase', course.id]);
-    debugger;
+    this.router.navigate(['/phase', course.id]);
 
   }
 }

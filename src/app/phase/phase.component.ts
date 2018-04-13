@@ -15,20 +15,23 @@ export class PhaseComponent implements OnInit, OnDestroy {
   course: Observable<CourseInfo>;
   phases: Observable<PhaseInfo[]>;
   private sub: any;
+  private courseId: string;
   private selectedPhase: string;
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private courseService: CourseService) {}
 
   ngOnInit() {
     this.sub = this.activatedRoute.params.subscribe(params => {
-      const id: string = params['id'];
-      this.course = this.courseService.getCourseById(id);
-      this.phases = this.courseService.getPhasesByCourseId(id);
+      this.courseId = params['courseId'];
+      this.course = this.courseService.getCourseById(this.courseId);
+      this.phases = this.courseService.getPhasesByCourseId(this.courseId);
     });
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 
   onChange(value: string ) {
@@ -37,7 +40,7 @@ export class PhaseComponent implements OnInit, OnDestroy {
   }
 
   onClick() {
-    this.router.navigate(['study', this.selectedPhase]);
+    this.router.navigate(['study', this.selectedPhase], {queryParams: {courseId: this.courseId}});
   }
 
    onClickBack() {

@@ -7,8 +7,7 @@ export class PdfService {
   constructor(private storage: AngularFireStorage ) { }
 
   getPdfFile() {
-
-    return this.storage.ref('javascript/testsheet2.pdf').getDownloadURL();
+    return this.storage.ref('java/java-0.pdf').getDownloadURL();
   }
 }
 
