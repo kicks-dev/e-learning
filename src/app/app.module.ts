@@ -20,7 +20,9 @@ import { MatDividerModule,
   MatListModule,
   MatRadioModule,
   MatMenu,
-  MatMenuModule} from '@angular/material';
+  MatMenuModule,
+  MatToolbarModule,
+  MatProgressBarModule} from '@angular/material';
 import { MainComponent } from './main/main.component';
 import { AuthService } from './providers/auth.service';
 import { CourseService } from './providers/course.service';
@@ -61,7 +63,9 @@ const appRoutes: Routes = [
     MatTooltipModule,
     MatListModule,
     MatRadioModule,
-    MatMenuModule
+    MatMenuModule,
+    MatToolbarModule,
+    MatProgressBarModule
   ],
   providers: [AuthService, CourseService, PdfService],
   bootstrap: [AppComponent]

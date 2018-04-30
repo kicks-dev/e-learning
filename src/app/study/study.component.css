@@ -1,12 +1,21 @@
-div.pdf-container {
+div.pdf-container{
 
   max-width: 180%;
   max-height: 75%;
-  border: medium solid;
+  border: thin solid;
   overflow-y: auto;
-
 }
-pdf-viewer.fix-container {
+div.zoom-in:hover{
+  cursor: zoom-in;
+}
+div.zoom-out:hover{
+  cursor: zoom-out;
+}
+.pdf-spinner{
+  width: 100%;
+  height: 100%;
+}
+pdf-viewer.fix-container{
 
   min-width: 100%;
   max-width: 100%;

@@ -6,4 +6,5 @@ export interface PhaseInfo {
   content: string;
   startDateTime: Date;
   endDateTime: Date;
+  pdfName: string;
 }

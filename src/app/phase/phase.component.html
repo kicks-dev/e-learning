@@ -8,8 +8,8 @@
 <div>
   <mat-radio-group >
     <ng-container *ngFor="let phase of phases | async">
-    <mat-radio-button (change)="onChange(phase.id)" value={{phase.id}}>{{phase.title}} {{phase.description}}</mat-radio-button><br/>
-  </ng-container>
+      <mat-radio-button (change)="onChange(phase.id)" value={{phase.id}}>{{phase.title}} {{phase.description}}</mat-radio-button><br/>
+    </ng-container>
   </mat-radio-group>
 </div>
 <button mat-button [disabled]="selectedPhase == null" (click)="onClick()">開始</button>

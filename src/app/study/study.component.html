@@ -2,18 +2,19 @@
   {{(course | async)?.title}}コース /  {{(phase | async)?.title}}
 </h4>
 <button mat-button (click)="onClickBack()"><mat-icon>reply</mat-icon></button>
+
+<!-- PDF 画面　-->
+<div class="pdf-spinner w3-container w3-padding-64" [hidden]="!pageInfo.hidden">
+  <mat-progress-bar mode="determinate" value="progress" ></mat-progress-bar>
+</div>
 <div class="w3-center controller-panel">
   <div class="w3-bar">
     <a mat-icon-button (click)="onClickLeft()"><mat-icon>keyboard_arrow_left</mat-icon></a>
-    <span [hidden]="pageInfo.hidden"> {{pageInfo.currentPage}} / {{pageInfo.totalPages}} </span>
+    <span > {{pageInfo.currentPage}} / {{pageInfo.totalPages}} </span>
     <a mat-icon-button (click)="onClickRight()"><mat-icon>keyboard_arrow_right</mat-icon></a>
   </div>
-
 </div>
-<!-- PDF 画面　-->
-
-<div class="w3-rest w3-margin pdf-container">
-
+<div class="w3-rest w3-margin pdf-container" [ngClass]="zoomInOut">
   <pdf-viewer [src]="pdfSrc"
               [render-text]="false"
               [stick-to-page]="false"
@@ -21,8 +22,11 @@
               [(page)]="pageInfo.currentPage"
               [original-size]="false"
               [autoresize]="true"
-              [zoom]="1"
+              [zoom]="pageInfo.zoomLevel"
               (after-load-complete)="onLoadPdf($event)"
               class="fix-container"
-              (on-progress)="onProgress($event)" ></pdf-viewer>
+              (on-progress)="onProgress($event)"
+              (after-load-complete)="afterLoadComplete($event)" 
+              (click)="onClick()">
+  </pdf-viewer>
 </div>
