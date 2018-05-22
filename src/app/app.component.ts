@@ -20,13 +20,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
    this.authService.hasAuth().subscribe(auth => {
-
      if (!auth) {
        this.router.navigate(['login']);
        this.userInfo = null;
-
      } else {
-        this.userInfo = this.authService.getUserInfo(auth.email);
+        this.userInfo = this.authService.getUserInfoByEmail(auth.email);
      }
    });
   }

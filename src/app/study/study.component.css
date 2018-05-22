@@ -1,7 +1,13 @@
+div.file-uploader{
+  background: white;
+  z-index: 1;
+  position:absolute;
+  height: calc(90vh * 0.74);
+  width: calc(100% - 16px * 4);
+  margin-left: 16px;
+}
 div.pdf-container{
-
-  max-width: 180%;
-  max-height: 75%;
+  max-height: 74%;
   border: thin solid;
   overflow-y: auto;
 }
@@ -12,7 +18,7 @@ div.zoom-out:hover{
   cursor: zoom-out;
 }
 .pdf-spinner{
-  width: 100%;
+  width: 50%;
   height: 100%;
 }
 pdf-viewer.fix-container{

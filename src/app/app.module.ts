@@ -10,6 +10,7 @@ import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { environment } from '../environments/environment';
+import { MomentModule } from 'ngx-moment';
 import { LoginComponent } from './login/login.component';
 import { MatDividerModule,
   MatInputModule,
@@ -22,13 +23,17 @@ import { MatDividerModule,
   MatMenu,
   MatMenuModule,
   MatToolbarModule,
-  MatProgressBarModule} from '@angular/material';
+  MatProgressBarModule,
+  MatProgressSpinnerModule,
+  MatDialogModule} from '@angular/material';
 import { MainComponent } from './main/main.component';
 import { AuthService } from './providers/auth.service';
 import { CourseService } from './providers/course.service';
 import { PdfService } from './providers/pdf.service';
+import { FileService } from './providers/file.service';
 import { PhaseComponent } from './phase/phase.component';
 import { StudyComponent } from './study/study.component';
+import { UploadDialogComponent } from './upload-dialog/upload-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: MainComponent },
@@ -43,7 +48,8 @@ const appRoutes: Routes = [
     LoginComponent,
     MainComponent,
     PhaseComponent,
-    StudyComponent
+    StudyComponent,
+    UploadDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +60,7 @@ const appRoutes: Routes = [
     AngularFireAuthModule,
     AngularFireStorageModule,
     PdfViewerModule,
+    MomentModule,
     MatDividerModule,
     MatInputModule,
     MatIconModule,
@@ -65,9 +72,12 @@ const appRoutes: Routes = [
     MatRadioModule,
     MatMenuModule,
     MatToolbarModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatDialogModule
   ],
-  providers: [AuthService, CourseService, PdfService],
+  entryComponents: [UploadDialogComponent],
+  providers: [AuthService, CourseService, PdfService, FileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

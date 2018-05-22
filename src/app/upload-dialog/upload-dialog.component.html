@@ -1,0 +1,6 @@
+<div [hidden]="!showComment"><p>アップロード中</p></div>
+<div [hidden]="showComment">
+  <p>アップロード完了</p>
+  <button mat-button mat-dialog-close>終了</button>
+</div>
+<mat-progress-bar mode="determinate" value="uploadPercent"></mat-progress-bar>

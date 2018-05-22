@@ -1,6 +1,6 @@
 export interface UserInfo {
 
-  uid: String;
-  name: String;
-  email: String;
+  uid: string;
+  name: string;
+  email: string;
 }

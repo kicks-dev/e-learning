@@ -4,14 +4,27 @@
 <button mat-button (click)="onClickBack()"><mat-icon>reply</mat-icon></button>
 
 <!-- PDF 画面　-->
-<div class="pdf-spinner w3-container w3-padding-64" [hidden]="!pageInfo.hidden">
-  <mat-progress-bar mode="determinate" value="progress" ></mat-progress-bar>
-</div>
+
 <div class="w3-center controller-panel">
   <div class="w3-bar">
     <a mat-icon-button (click)="onClickLeft()"><mat-icon>keyboard_arrow_left</mat-icon></a>
     <span > {{pageInfo.currentPage}} / {{pageInfo.totalPages}} </span>
     <a mat-icon-button (click)="onClickRight()"><mat-icon>keyboard_arrow_right</mat-icon></a>
+  </div>
+</div>
+<div class="pdf-spinner w3-container w3-padding-64 w3-display-middle" [hidden]="!pageInfo.hidden">
+    <mat-progress-bar class="w3-display-middle" mode="indeterminate" value="progress" ></mat-progress-bar>
+</div>
+<div class="w3-rest file-uploader" [hidden]="!showFileUpload">
+  <div class="w3-display-middle">
+    <h4>お疲れ様でした。</h4>
+    <p>成果物をzipファイルに圧縮してアップロードしてください。</p>
+    <input type="file" (change)="fileChange($event)" accept=".zip"/>
+    <div class="w3-padding-64">
+      <div [hidden]="uploadFile==null">
+        <button mat-stroked-button (click)="onClickUpload()">アップロード</button>
+      </div>
+    </div>
   </div>
 </div>
 <div class="w3-rest w3-margin pdf-container" [ngClass]="zoomInOut">

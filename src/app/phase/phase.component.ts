@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { CourseService } from '../providers/course.service';
 import { CourseInfo } from '../interface/course-info';
 import { PhaseInfo } from '../interface/phase-info';
+import { UserInfo } from '../interface/user-info';
+import { AuthService } from '../providers/auth.service';
 
 @Component({
   selector: 'app-phase',
@@ -16,15 +18,24 @@ export class PhaseComponent implements OnInit, OnDestroy {
   phases: Observable<PhaseInfo[]>;
   private sub: any;
   private courseId: string;
-  private selectedPhase: string;
+  private selectedPhase: PhaseInfo;
+  private userInfo: UserInfo;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private courseService: CourseService) {}
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private courseService: CourseService,
+    private authService: AuthService) {}
 
   ngOnInit() {
     this.sub = this.activatedRoute.params.subscribe(params => {
+      this.userInfo = this.authService.userInfo;
+      if (this.userInfo == null) {
+        this.router.navigate(['']);
+      }
       this.courseId = params['courseId'];
       this.course = this.courseService.getCourseById(this.courseId);
-      this.phases = this.courseService.getPhasesByCourseId(this.courseId);
+      this.phases = this.courseService.getPhasesByCourseId(this.courseId, this.userInfo.uid) as Observable<PhaseInfo[]>;
     });
   }
 
@@ -34,13 +45,14 @@ export class PhaseComponent implements OnInit, OnDestroy {
     }
   }
 
-  onChange(value: string ) {
-    console.log('selected phaseId = ' + value);
+  onChange(value: PhaseInfo ) {
+    console.log('selected phase id = ' + value.id);
     this.selectedPhase = value;
   }
 
   onClick() {
-    this.router.navigate(['study', this.selectedPhase], {queryParams: {courseId: this.courseId}});
+    this.courseService.startPhase(this.userInfo.uid, this.selectedPhase);
+    this.router.navigate(['study', this.selectedPhase.id], {queryParams: {courseId: this.courseId}});
   }
 
    onClickBack() {

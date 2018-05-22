@@ -5,12 +5,31 @@
   学習フェーズ選択
 </h4>
 <button mat-button (click)="onClickBack()"><mat-icon>reply</mat-icon></button>
-<div>
-  <mat-radio-group >
-    <ng-container *ngFor="let phase of phases | async">
-      <mat-radio-button (change)="onChange(phase.id)" value={{phase.id}}>{{phase.title}} {{phase.description}}</mat-radio-button><br/>
-    </ng-container>
-  </mat-radio-group>
+<div class="container">
+  <table class="w3-table w3-bordered">
+    <mat-radio-group >
+      <tr>
+        <th>タイトル</th><th>所要時間</th><th>開始日時</th><th>終了日時</th>
+      </tr>
+      <ng-container *ngFor="let phase of phases | async">
+        <tr>
+          <td>
+              <mat-radio-button (change)="onChange(phase)" value={{phase}} matTooltip={{phase.description}} matTooltipPosition="after">{{phase.title}}</mat-radio-button>
+          </td>
+          <td>
+            {{phase.time}}
+          </td>
+          <td class="small-text">
+            {{phase.startDateTime | amDateFormat: 'YYYY/MM/DD HH:mm'}}
+          </td>
+          <td class="small-text">
+            {{phase.endDateTime | amDateFormat: 'YYYY/MM/DD HH:mm'}}
+          </td>
+        </tr>
+      </ng-container>
+    </mat-radio-group>
+  </table>
 </div>
-<button mat-button [disabled]="selectedPhase == null" (click)="onClick()">開始</button>
-
+<div class="w3-padding-64">
+  <button mat-stroked-button [disabled]="selectedPhase == null" (click)="onClick()">開始</button>
+</div>
