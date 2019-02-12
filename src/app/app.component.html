@@ -9,14 +9,25 @@
   <div class="w3-row text-right" [hidden]="userInfo==null">
     <span>{{(userInfo | async)?.name}}様</span>
     <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="onClickLogout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>ログアウト</span>
       </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="onClickLogout()">
+      <div *ngIf="(userInfo | async)?.admin">
+        <button mat-menu-item (click)="onClickManageUser()" *ngIf="displayService.presentDisplayMode===displayService.displayMode.STUDY">
           <mat-icon>exit_to_app</mat-icon>
-          <span>ログアウト</span>
+          <span>ユーザ管理画面へ</span>
         </button>
-      </mat-menu>
+        <button mat-menu-item (click)="onClickStudy()" *ngIf="displayService.presentDisplayMode===displayService.displayMode.USER_MANAGE">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>学習コース画面へ</span>
+        </button>
+      </div>
+      
+    </mat-menu>
   </div>
   <router-outlet></router-outlet>
 </div>

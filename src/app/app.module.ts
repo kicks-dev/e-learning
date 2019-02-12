@@ -2,12 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
-import { AngularFireModule } from 'angularfire2';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
-import { AngularFireStorageModule } from 'angularfire2/storage';
-import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { environment } from '../environments/environment';
 import { MomentModule } from 'ngx-moment';
@@ -20,26 +20,26 @@ import { MatDividerModule,
   MatTooltipModule,
   MatListModule,
   MatRadioModule,
-  MatMenu,
+  MatTableModule,
   MatMenuModule,
   MatToolbarModule,
   MatProgressBarModule,
   MatProgressSpinnerModule,
+  MatCheckboxModule,
   MatDialogModule} from '@angular/material';
 import { MainComponent } from './main/main.component';
-import { AuthService } from './providers/auth.service';
-import { CourseService } from './providers/course.service';
-import { PdfService } from './providers/pdf.service';
-import { FileService } from './providers/file.service';
 import { PhaseComponent } from './phase/phase.component';
 import { StudyComponent } from './study/study.component';
 import { UploadDialogComponent } from './upload-dialog/upload-dialog.component';
+import { ManageUserComponent } from './manage-user/manage-user.component';
+import { UserRegisterDialogComponent } from './user-register-dialog/user-register-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: MainComponent },
   { path: 'login', component: LoginComponent },
   { path: 'phase/:courseId', component: PhaseComponent },
-  { path: 'study/:phaseId', component: StudyComponent }
+  { path: 'study/:phaseId', component: StudyComponent },
+  { path: 'manage-user', component: ManageUserComponent}
 ];
 
 @NgModule({
@@ -49,7 +49,9 @@ const appRoutes: Routes = [
     MainComponent,
     PhaseComponent,
     StudyComponent,
-    UploadDialogComponent
+    UploadDialogComponent,
+    ManageUserComponent,
+    UserRegisterDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -67,17 +69,20 @@ const appRoutes: Routes = [
     MatCardModule,
     MatButtonModule,
     FormsModule,
+    ReactiveFormsModule,
     MatTooltipModule,
     MatListModule,
     MatRadioModule,
+    MatTableModule,
     MatMenuModule,
     MatToolbarModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
-    MatDialogModule
+    MatCheckboxModule,
+    MatDialogModule,
   ],
-  entryComponents: [UploadDialogComponent],
-  providers: [AuthService, CourseService, PdfService, FileService],
+  entryComponents: [UploadDialogComponent, UserRegisterDialogComponent],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

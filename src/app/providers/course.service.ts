@@ -1,25 +1,25 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { Observable } from 'rxjs/Observable';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { CourseInfo } from '../interface/course-info';
 import { PhaseInfo } from '../interface/phase-info';
-import 'rxjs/add/observable/forkJoin';
-import 'rxjs/add/operator/mergeMap';
-import { merge } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
-@Injectable()
+
+@Injectable({
+  providedIn: 'root'
+})
 export class CourseService {
 
   constructor(private afs: AngularFirestore) {}
 
   getCourses() {
-    return this.afs.collection<CourseInfo>('courses').snapshotChanges().map(actions => {
+    return this.afs.collection<CourseInfo>('courses').snapshotChanges().pipe(map(actions => {
       return actions.map(a => {
         const data = a.payload.doc.data() as CourseInfo;
         const id = a.payload.doc.id;
         return { id, ...data};
       });
-    });
+    }));
   }
 
   getCourseById(id: string) {
@@ -29,21 +29,21 @@ export class CourseService {
 
   getPhasesByCourseId(courseId: string, uid: string) {
     console.log('getPhasesByCourseId courseId = ' + courseId + ' uid = ' + uid);
-    const phaseList = this.afs.collection<PhaseInfo>('phases', ref => ref.where('courseId', '==', courseId))
+    const phaseList = this.afs.collection<PhaseInfo>('phases', ref => ref.where('courseId', '==', courseId).orderBy('no'))
     .valueChanges();
 
-    return phaseList.map(phases => {
+    return phaseList.pipe(map(phases => {
       phases.map(phase => {
         console.log('phase id =' + phase.id);
-        this.afs.doc<PhaseInfo>('attendedPhases/' + uid + '/phases/' + phase.id).valueChanges()
-        .map(phaseInfo => {
+        this.afs.doc<PhaseInfo>('attendedPhases/' + uid + '/phases/' + phase.id).valueChanges().pipe(
+        map(phaseInfo => {
           phase.endDateTime = phaseInfo ? phaseInfo.endDateTime : null;
           phase.startDateTime = phaseInfo ? phaseInfo.startDateTime : null;
           console.log('endTime = ' + phase.endDateTime);
-        }).subscribe();
+        })).subscribe();
       });
       return phases;
-    });
+    }));
   }
   startPhase(uid: string, phase: PhaseInfo) {
     console.log('startPhase (uid, phaseId) = ' + uid + ' ' + phase.id);

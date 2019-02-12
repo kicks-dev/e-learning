@@ -14,16 +14,16 @@
       <ng-container *ngFor="let phase of phases | async">
         <tr>
           <td>
-              <mat-radio-button (change)="onChange(phase)" value={{phase}} matTooltip={{phase.description}} matTooltipPosition="after">{{phase.title}}</mat-radio-button>
+            <mat-radio-button (change)="onChange(phase)" value={{phase}} matTooltip={{phase.description}} matTooltipPosition="after">{{phase.title}}</mat-radio-button>
           </td>
           <td>
-            {{phase.time}}
+            {{phase.time }}
           </td>
           <td class="small-text">
-            {{phase.startDateTime | amDateFormat: 'YYYY/MM/DD HH:mm'}}
+            {{phase.startDateTime?.toDate() | amDateFormat: 'YYYY/MM/DD HH:mm'}}
           </td>
           <td class="small-text">
-            {{phase.endDateTime | amDateFormat: 'YYYY/MM/DD HH:mm'}}
+            {{phase.endDateTime?.toDate() | amDateFormat: 'YYYY/MM/DD HH:mm'}}
           </td>
         </tr>
       </ng-container>

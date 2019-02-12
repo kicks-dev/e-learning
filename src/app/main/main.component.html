@@ -1,11 +1,13 @@
 <h4>
   学習コース選択
 </h4>
-
+<mat-divider></mat-divider>
+<p>
+  学習したいコースをクリックしてください。
+</p>
 <mat-list>
   <mat-list-item *ngFor="let course of courses | async">
     <mat-icon matListIcon>folder</mat-icon>
     <button mat-button (click)="onClick(course)" matTooltip={{course.content}} matTooltipPosition="after"> {{course.title}} </button>
-
   </mat-list-item>
 </mat-list>

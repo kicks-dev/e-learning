@@ -1,0 +1,47 @@
+<h2 mat-dialog-title>新規ユーザ登録</h2>
+<mat-dialog-content>
+  <form class="create-user-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <mat-form-field >
+      <input matInput placeholder="メールアドレス" [formControl]="email" required>
+      <mat-hint>メールアドレスを入力してください。</mat-hint>
+      <mat-error *ngIf="email.hasError('email')">
+        正しいメールアドレスを入力してください。
+      </mat-error>
+      <mat-error *ngIf="email.hasError('required')">
+        メールアドレスは必須です。
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field >
+      <input matInput placeholder="ユーザ名" [formControl]="name" required>
+      <mat-hint>ユーザ名を入力してください。</mat-hint>
+      <mat-error *ngIf="name.hasError('required')">
+        ユーザ名は必須です。
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field >
+      <input matInput placeholder="パスワード" [formControl]="password" required>
+      <mat-hint>パスワードを入力してください。</mat-hint>
+      <mat-error *ngIf="password.hasError('minlength')">
+        パスワードの長さは6文字以上です。
+      </mat-error>
+      <mat-error *ngIf="password.hasError('required')">
+        パスワードは必須です。
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field >
+      <input matInput placeholder="パスワード確認" [formControl]="confirmPassword" required>
+      <mat-hint>パスワードを入力してください。</mat-hint>
+      <mat-error *ngIf="confirmPassword.hasError('minlength')">
+        パスワードの長さは6文字以上です。
+      </mat-error>
+      <mat-error *ngIf="registerForm.get('confirmPassword').errors && registerForm.get('confirmPassword').errors.ConfirmPassword">
+        パスワードが一致しません。
+      </mat-error>
+      <mat-error *ngIf="password.hasError('required')">
+        パスワードは必須です。
+      </mat-error>
+    </mat-form-field>
+    <mat-checkbox [formControl]="admin">管理者</mat-checkbox>
+    <button mat-button type="submit" [disabled]="!registerForm.valid">登録</button> 
+  </form>
+</mat-dialog-content>

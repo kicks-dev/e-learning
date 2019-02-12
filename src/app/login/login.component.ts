@@ -20,11 +20,13 @@ export class LoginComponent implements OnInit {
   // onClickLogin event
   onClickLogin() {
     console.log('clickLogin');
-    this.authService.loginWithEmail(this.loginInfo).then(result => {
-      this.router.navigate(['']);
-    }).catch(error => {
-      console.log('login fail : ' + error);
-      this.loginInfo.invalid = true;
+    this.authService.setPersisitence().then( res => {
+      this.authService.loginWithEmail(this.loginInfo).then(result => {
+        this.router.navigate(['']);
+      }).catch(error => {
+        console.log('login fail : ' + error);
+        this.loginInfo.invalid = true;
+      });
     });
   }
 

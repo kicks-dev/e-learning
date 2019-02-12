@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { CourseService } from '../providers/course.service';
 import { CourseInfo } from '../interface/course-info';
 import { PhaseInfo } from '../interface/phase-info';

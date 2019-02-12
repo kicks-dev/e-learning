@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { CourseService } from '../providers/course.service';
 import { CourseInfo } from '../interface/course-info';
 import { PhaseInfo } from '../interface/phase-info';
@@ -9,9 +9,9 @@ import { PdfService } from '../providers/pdf.service';
 import { AuthService } from '../providers/auth.service';
 
 import { PDFProgressData, PDFDocumentProxy } from 'pdfjs-dist';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { UploadDialogComponent } from '../upload-dialog/upload-dialog.component';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
 export enum KEY_CODE {
 
@@ -37,7 +37,7 @@ export class StudyComponent implements OnInit, OnDestroy {
   private phaseId: string;
   private sub: any;
   private progress: number;
-  private pdfSrc: any;
+  public pdfSrc: Observable<String | null>;
   private showFileUpload: any;
   public uploadFile: File;
 
@@ -61,7 +61,12 @@ export class StudyComponent implements OnInit, OnDestroy {
         console.log('params phaseId = ' + this.phaseId);
         console.log('params courseId = ' + this.courseId);
         this.courseService.getPhaseById(
-          this.phaseId).map(c => this.pdfService.getPdfFile(c.courseId, c.pdfName).subscribe(src => this.pdfSrc = src)).subscribe();
+          // tslint:disable-next-line:max-line-length
+          this.phaseId).pipe(map((c) =>
+          this.pdfService.getPdfFile(c.courseId, c.pdfName).subscribe(
+            src => this.pdfSrc = src
+            )
+          )).subscribe();
       });
       this.course = this.courseService.getCourseById(this.courseId);
       this.phase = this.courseService.getPhaseById(this.phaseId);
