@@ -42,6 +42,7 @@
       </mat-error>
     </mat-form-field>
     <mat-checkbox [formControl]="admin">管理者</mat-checkbox>
-    <button mat-button type="submit" [disabled]="!registerForm.valid">登録</button> 
+    <button mat-button type="submit" [disabled]="!registerForm.valid || registering">登録</button>
+    <button mat-button type="button" (click)="onClickCancel()" [disabled]="registering">キャンセル</button> 
   </form>
 </mat-dialog-content>

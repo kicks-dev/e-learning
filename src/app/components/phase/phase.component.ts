@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { CourseService } from '../providers/course.service';
-import { CourseInfo } from '../interface/course-info';
-import { PhaseInfo } from '../interface/phase-info';
-import { UserInfo } from '../interface/user-info';
-import { AuthService } from '../providers/auth.service';
+import { Observable, Subscription } from 'rxjs';
+import { CourseService } from '../../providers/course.service';
+import { CourseInfo } from '../../interface/course-info';
+import { PhaseInfo } from '../../interface/phase-info';
+import { UserInfo } from '../../interface/user-info';
+import { AuthService } from '../../providers/auth.service';
 
 @Component({
   selector: 'app-phase',
@@ -16,7 +16,7 @@ export class PhaseComponent implements OnInit, OnDestroy {
 
   course: Observable<CourseInfo>;
   phases: Observable<PhaseInfo[]>;
-  private sub: any;
+  private sub: Subscription;
   private courseId: string;
   private selectedPhase: PhaseInfo;
   private userInfo: UserInfo;
@@ -55,7 +55,7 @@ export class PhaseComponent implements OnInit, OnDestroy {
     this.router.navigate(['study', this.selectedPhase.id], {queryParams: {courseId: this.courseId}});
   }
 
-   onClickBack() {
+  onClickBack() {
     this.router.navigate(['']);
   }
 }

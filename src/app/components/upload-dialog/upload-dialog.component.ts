@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { FileService } from '../providers/file.service';
+import { FileService } from '../../providers/file.service';
 import { AngularFireUploadTask } from 'angularfire2/storage';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';

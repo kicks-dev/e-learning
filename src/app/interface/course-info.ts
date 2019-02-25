@@ -7,4 +7,6 @@ export interface CourseInfo {
   content: string;
   finished: boolean;
   studyInfoList: WorkInfo[];
+  finishCount: number;
+  phaseCount: number;
 }

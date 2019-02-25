@@ -9,7 +9,6 @@ import { environment } from '../../environments/environment';
 import { from } from 'rxjs';
 
 const EMAIL = 'email';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -17,8 +16,11 @@ export class AuthService {
 
   public email: string;
   public userInfo: UserInfo;
+  private secondaryApp: firebase.app.App;
 
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {}
+  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {
+    this.secondaryApp = firebase.initializeApp(environment.firebase, 'Secondary');
+  }
 
   hasAuth() {
     return this.afAuth.authState;
@@ -36,8 +38,7 @@ export class AuthService {
   }
   createUser(email: string, password: string) {
     console.log('createUser');
-    const secondaryApp = firebase.initializeApp(environment.firebase, 'Secondary');
-    return from(secondaryApp.auth().createUserWithEmailAndPassword(email, password)));
+    return from(this.secondaryApp.auth().createUserWithEmailAndPassword(email, password));
   }
 
   logout() {

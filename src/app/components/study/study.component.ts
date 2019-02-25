@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { CourseService } from '../providers/course.service';
-import { CourseInfo } from '../interface/course-info';
-import { PhaseInfo } from '../interface/phase-info';
-import { PageInfo } from '../interface/page-info';
-import { PdfService } from '../providers/pdf.service';
-import { AuthService } from '../providers/auth.service';
+import { CourseService } from '../../providers/course.service';
+import { CourseInfo } from '../../interface/course-info';
+import { PhaseInfo } from '../../interface/phase-info';
+import { PageInfo } from '../../interface/page-info';
+import { PdfService } from '../../providers/pdf.service';
+import { AuthService } from '../../providers/auth.service';
 
 import { PDFProgressData, PDFDocumentProxy } from 'pdfjs-dist';
 import { MatDialog } from '@angular/material';

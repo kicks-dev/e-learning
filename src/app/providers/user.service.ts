@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { UserInfo } from '../interface/user-info';
 import { map } from 'rxjs/operators';
+import { from } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,11 @@ export class UserService {
       }))
     );
   }
-  registerUser() {
-    
+  registerUser = (name: string, email: string, uid: string, admin: boolean) => {
+    const userInfo = {name: name, uid: uid, admin: admin};
+    return from(this.afs.collection<UserInfo>('users/').doc(email).set(userInfo));
+  }
+  deleteUser = (isDelete: boolean, email: string) => {
+    this.afs.doc('users/' + email).update({deleted: isDelete});
   }
 }

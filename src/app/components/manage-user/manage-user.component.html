@@ -3,9 +3,10 @@
 </h4>
 <mat-divider></mat-divider>
 <h6>
-  ユーザの登録、変更、削除等を行います。
+  ユーザの登録、削除等を行います。
 </h6>
 <button color="primary" class="button-new" mat-raised-button (click)="onClickRegister()">新規登録</button>
+<button color="primary" class="button-delete" [disabled]="selection.selected.length === 0" mat-raised-button (click)="onClickShowStatus()">学習状況を確認</button>
 <div>
   <table mat-table [dataSource]="userList" class="mat-elevation-z8 user-table">
     <ng-container matColumnDef="select">
@@ -18,12 +19,16 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <th mat-header-cell *matHeaderCellDef> 名前 </th>
       <td mat-cell *matCellDef="let element"> {{element.name}} </td>
     </ng-container>
     <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <th mat-header-cell *matHeaderCellDef> メールアドレス </th>
       <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+    <ng-container matColumnDef="deleted">
+      <th mat-header-cell *matHeaderCellDef> 削除 </th>
+      <td mat-cell *matCellDef="let element"><mat-checkbox [checked]="element.deleted" (change)="onDeleteChecked($event, element.email)"></mat-checkbox></td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

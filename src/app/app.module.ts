@@ -11,7 +11,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { environment } from '../environments/environment';
 import { MomentModule } from 'ngx-moment';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './components/login/login.component';
 import { MatDividerModule,
   MatInputModule,
   MatIconModule,
@@ -26,20 +26,24 @@ import { MatDividerModule,
   MatProgressBarModule,
   MatProgressSpinnerModule,
   MatCheckboxModule,
-  MatDialogModule} from '@angular/material';
-import { MainComponent } from './main/main.component';
-import { PhaseComponent } from './phase/phase.component';
-import { StudyComponent } from './study/study.component';
-import { UploadDialogComponent } from './upload-dialog/upload-dialog.component';
-import { ManageUserComponent } from './manage-user/manage-user.component';
-import { UserRegisterDialogComponent } from './user-register-dialog/user-register-dialog.component';
+  MatDialogModule,
+  MatSnackBarModule} from '@angular/material';
+import { MainComponent } from './components/main/main.component';
+import { PhaseComponent } from './components/phase/phase.component';
+import { StudyComponent } from './components/study/study.component';
+import { UploadDialogComponent } from './components/upload-dialog/upload-dialog.component';
+import { ManageUserComponent } from './components/manage-user/manage-user.component';
+import { UserRegisterDialogComponent } from './components/user-register-dialog/user-register-dialog.component';
+import { UserRegisterSnackComponent } from './snack-bars/user-register-snack/user-register-snack.component';
+import { UserStatusComponent } from './components/user-status/user-status.component';
 
 const appRoutes: Routes = [
   { path: '', component: MainComponent },
   { path: 'login', component: LoginComponent },
   { path: 'phase/:courseId', component: PhaseComponent },
   { path: 'study/:phaseId', component: StudyComponent },
-  { path: 'manage-user', component: ManageUserComponent}
+  { path: 'manage-user', component: ManageUserComponent},
+  { path: 'user-status/', component: UserStatusComponent}
 ];
 
 @NgModule({
@@ -51,7 +55,9 @@ const appRoutes: Routes = [
     StudyComponent,
     UploadDialogComponent,
     ManageUserComponent,
-    UserRegisterDialogComponent
+    UserRegisterDialogComponent,
+    UserRegisterSnackComponent,
+    UserStatusComponent
   ],
   imports: [
     BrowserModule,
@@ -80,6 +86,7 @@ const appRoutes: Routes = [
     MatProgressSpinnerModule,
     MatCheckboxModule,
     MatDialogModule,
+    MatSnackBarModule
   ],
   entryComponents: [UploadDialogComponent, UserRegisterDialogComponent],
   providers: [],

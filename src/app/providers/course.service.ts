@@ -12,13 +12,19 @@ export class CourseService {
 
   constructor(private afs: AngularFirestore) {}
 
-  getCourses() {
-    return this.afs.collection<CourseInfo>('courses').snapshotChanges().pipe(map(actions => {
-      return actions.map(a => {
-        const data = a.payload.doc.data() as CourseInfo;
-        const id = a.payload.doc.id;
-        return { id, ...data};
+  getCourses(uid: string) {
+    return this.afs.collection<CourseInfo>('courses').valueChanges().pipe(map(courses => {
+      courses.map(course => {
+        this.afs.collection<PhaseInfo>('attendedPhases/' + uid + '/phases', ref => ref.where('courseId', '==', course.id))
+        .valueChanges().pipe(map(phaseInfos => {
+          course.finishCount = phaseInfos.length;
+        })).subscribe();
+        this.afs.collection<PhaseInfo>('phases', ref => ref.where('courseId', '==', course.id))
+        .valueChanges().pipe(map(phases => {
+          course.phaseCount = phases.length;
+        } )).subscribe();
       });
+      return courses;
     }));
   }
 
@@ -61,7 +67,7 @@ export class CourseService {
 
   completePhase(courseId: string, phaseId: string, uid: string) {
     console.log('completePhase (curseId, phaseId, uid} = ' + courseId + ' ' + phaseId + ' ' + uid);
-    this.afs.doc<PhaseInfo>('attendedPhases/' + uid + '/phases/' + phaseId).update({endDateTime: new Date()});
+    this.afs.doc<PhaseInfo>('attendedPhases/' + uid + '/phases/' + phaseId).update({endDateTime: new Date(), courseId: courseId});
   }
 }
 

@@ -25,6 +25,12 @@ export class AppComponent implements OnInit {
         this.userInfo = null;
       } else {
         this.userInfo = this.authService.getUserInfoByEmail(auth.email);
+        this.userInfo.subscribe( user => {
+          if (user.deleted) {
+            alert('このユーザは削除されています。');
+            this.authService.logout();
+          }
+        });
       }
     });
   }
