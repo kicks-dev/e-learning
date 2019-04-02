@@ -20,10 +20,14 @@ export class UserService {
     );
   }
   registerUser = (name: string, email: string, uid: string, admin: boolean) => {
-    const userInfo = {name: name, uid: uid, admin: admin};
+    const userInfo = {name: name, uid: uid, admin: admin, deleted: false};
     return from(this.afs.collection<UserInfo>('users/').doc(email).set(userInfo));
   }
   deleteUser = (isDelete: boolean, email: string) => {
     this.afs.doc('users/' + email).update({deleted: isDelete});
+  }
+  getUserInfoByEmail(email: string) {
+    console.log('getUserInfo email = ' + email);
+    return this.afs.doc<UserInfo>('users/' + email).valueChanges();
   }
 }

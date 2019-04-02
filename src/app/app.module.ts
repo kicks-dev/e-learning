@@ -12,6 +12,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { environment } from '../environments/environment';
 import { MomentModule } from 'ngx-moment';
 import { LoginComponent } from './components/login/login.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatDividerModule,
   MatInputModule,
   MatIconModule,
@@ -36,6 +38,8 @@ import { ManageUserComponent } from './components/manage-user/manage-user.compon
 import { UserRegisterDialogComponent } from './components/user-register-dialog/user-register-dialog.component';
 import { UserRegisterSnackComponent } from './snack-bars/user-register-snack/user-register-snack.component';
 import { UserStatusComponent } from './components/user-status/user-status.component';
+import { UserPhaseComponent } from './components/user-phase/user-phase.component';
+import { StatComponent } from './components/stat/stat.component';
 
 const appRoutes: Routes = [
   { path: '', component: MainComponent },
@@ -43,7 +47,9 @@ const appRoutes: Routes = [
   { path: 'phase/:courseId', component: PhaseComponent },
   { path: 'study/:phaseId', component: StudyComponent },
   { path: 'manage-user', component: ManageUserComponent},
-  { path: 'user-status/', component: UserStatusComponent}
+  { path: 'user-status', component: UserStatusComponent},
+  { path: 'user-phase/:courseId', component: UserPhaseComponent},
+  { path: 'stat', component: StatComponent}
 ];
 
 @NgModule({
@@ -57,7 +63,9 @@ const appRoutes: Routes = [
     ManageUserComponent,
     UserRegisterDialogComponent,
     UserRegisterSnackComponent,
-    UserStatusComponent
+    UserStatusComponent,
+    UserPhaseComponent,
+    StatComponent
   ],
   imports: [
     BrowserModule,
@@ -69,6 +77,7 @@ const appRoutes: Routes = [
     AngularFireStorageModule,
     PdfViewerModule,
     MomentModule,
+    NgbModule,
     MatDividerModule,
     MatInputModule,
     MatIconModule,
@@ -86,7 +95,8 @@ const appRoutes: Routes = [
     MatProgressSpinnerModule,
     MatCheckboxModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    NgxChartsModule
   ],
   entryComponents: [UploadDialogComponent, UserRegisterDialogComponent],
   providers: [],

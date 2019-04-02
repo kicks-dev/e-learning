@@ -1,8 +1,9 @@
-<h4>
-  {{(course | async)?.title}}コース
-</h4>
+<div class="w3-panel w3-leftbar w3-orange">
+  <h4>ユーザ管理</h4>
+</div>
 <mat-divider></mat-divider>
-<h6>学習したいフェーズを選択してください。</h6>
+<h6>{{userInfo?.name}}様の学習状況</h6>
+<h5>{{(course | async)?.title}}コース</h5>
 <button mat-button (click)="onClickBack()"><mat-icon>reply</mat-icon></button>
 <div class="container">
   <table class="w3-table w3-bordered">
@@ -13,7 +14,7 @@
       <ng-container *ngFor="let phase of phases | async">
         <tr>
           <td>
-            <mat-radio-button (change)="onChange(phase)" value={{phase}} matTooltip={{phase.description}} matTooltipPosition="after">{{phase.title}}</mat-radio-button>
+            <p matTooltip={{phase.description}} matTooltipPosition="after">{{phase.title}}</p>
           </td>
           <td>
             {{phase.time }}

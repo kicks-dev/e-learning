@@ -6,7 +6,7 @@ import { UserInfo } from '../interface/user-info';
 import * as firebase from 'firebase/app';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { from } from 'rxjs';
+import { from, Subscription, Observable, Subject } from 'rxjs';
 
 const EMAIL = 'email';
 @Injectable({
@@ -18,12 +18,22 @@ export class AuthService {
   public userInfo: UserInfo;
   private secondaryApp: firebase.app.App;
 
+  private getUserSubject: Subject<any>;
+  private getUserObservable: Observable<any>;
+
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {
     this.secondaryApp = firebase.initializeApp(environment.firebase, 'Secondary');
+    this.getUserSubject = new Subject();
+    this.getUserObservable = this.getUserSubject.asObservable();
   }
 
   hasAuth() {
     return this.afAuth.authState;
+  }
+
+  setGetUserObserver = (observer) => {
+    return this.getUserObservable.subscribe( {next: () => {
+      observer(); }});
   }
 
   loginWithEmail(loginInfo: LoginInfo) {
@@ -52,6 +62,8 @@ export class AuthService {
     this.email = email;
     return this.afs.doc<UserInfo>('users/' + email).valueChanges().pipe(map(user => {
       this.userInfo = user;
+      console.log('call getUser next');
+      this.getUserSubject.next();
       return user;
     }));
   }

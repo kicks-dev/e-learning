@@ -10,5 +10,6 @@
     <mat-icon matListIcon>folder</mat-icon>
     <button mat-button (click)="onClick(course)" matTooltip={{course.content}} matTooltipPosition="after"> {{course.title}}</button>
     <span matTooltip="全フェーズ数と完了数です">({{course.finishCount}} / {{course.phaseCount}})</span>
+    <span class="progressbar"><ngb-progressbar type="success" [value]="course.finishCount" [max]="course.phaseCount"></ngb-progressbar></span>
   </mat-list-item>
 </mat-list>

@@ -45,6 +45,6 @@ export class ManageUserComponent implements OnInit {
   onClickShowStatus = () => {
     const selectedUser = this.selection.selected[0];
     console.log('selected user name = ' + selectedUser.name);
-    this.router.navigate(['user-status'], {queryParams: selectedUser});
+    this.router.navigate(['user-status', selectedUser]);
   }
 }

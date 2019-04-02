@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription, Observable } from 'rxjs';
-import { UserInfo } from 'firebase';
 import { CourseService } from '../../providers/course.service';
 import { CourseInfo } from '../../interface/course-info';
+import { UserService } from '../../providers/user.service';
+import { UserInfo } from '../../interface/user-info';
+import { AuthService } from '../../providers/auth.service';
 @Component({
   selector: 'app-user-status',
   templateUrl: './user-status.component.html',
@@ -17,21 +19,35 @@ export class UserStatusComponent implements OnInit, OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private courseService: CourseService) { }
+    private courseService: CourseService,
+    private userService: UserService,
+    private authService: AuthService ) { }
 
   ngOnInit() {
-    this.subRoute = this.activatedRoute.params.subscribe((params: UserInfo) => {
-      this.userInfo = params;
-      if (this.userInfo == null) {
+    this.subRoute = this.activatedRoute.params.subscribe(params => {
+      if (this.authService.userInfo == null) {
         this.router.navigate(['']);
+      } else {
+        this.userInfo = params as UserInfo;
+        if (this.userInfo == null) {
+          this.router.navigate(['manage-user']);
+        } else {
+          this.courseList = this.courseService.getCourses(params.uid);
+        }
       }
-      this.courseList = this.courseService.getCourses(params.uid);
     });
   }
   ngOnDestroy() {
     if (this.subRoute) {
       this.subRoute.unsubscribe();
     }
+  }
+  onClickBack() {
+    this.router.navigate(['manage-user']);
+  }
+  onClick(course) {
+    console.log('selected course = ' + course.title);
+    this.router.navigate(['/user-phase', course.id, this.userInfo]);
   }
 
 }

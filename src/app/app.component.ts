@@ -42,6 +42,10 @@ export class AppComponent implements OnInit {
     this.router.navigate(['']);
     this.displayService.presentDisplayMode = this.displayService.displayMode.STUDY;
   }
+  onClickStat() {
+    this.router.navigate(['stat']);
+    this.displayService.presentDisplayMode = this.displayService.displayMode.STAT;
+  }
   onClickLogout() {
     this.authService.logout();
   }

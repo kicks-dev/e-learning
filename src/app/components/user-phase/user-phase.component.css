@@ -1,0 +1,11 @@
+div.container{
+  height: 50vh;
+  overflow: scroll;
+}
+h4.titile{
+  background-color:rgb(252, 110, 99);  
+}
+td.small-text{
+  font-size: smaller;
+  vertical-align: middle;
+}

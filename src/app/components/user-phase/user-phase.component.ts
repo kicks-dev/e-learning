@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { CourseService } from '../../providers/course.service';
@@ -6,13 +6,12 @@ import { CourseInfo } from '../../interface/course-info';
 import { PhaseInfo } from '../../interface/phase-info';
 import { UserInfo } from '../../interface/user-info';
 import { AuthService } from '../../providers/auth.service';
-
 @Component({
-  selector: 'app-phase',
-  templateUrl: './phase.component.html',
-  styleUrls: ['./phase.component.css']
+  selector: 'app-user-phase',
+  templateUrl: './user-phase.component.html',
+  styleUrls: ['./user-phase.component.css']
 })
-export class PhaseComponent implements OnInit, OnDestroy {
+export class UserPhaseComponent implements OnInit {
 
   course: Observable<CourseInfo>;
   phases: Observable<PhaseInfo[]>;
@@ -20,43 +19,26 @@ export class PhaseComponent implements OnInit, OnDestroy {
   private courseId: string;
   private selectedPhase: PhaseInfo;
   private userInfo: UserInfo;
-
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private courseService: CourseService,
     private authService: AuthService) {}
 
+
   ngOnInit() {
     this.sub = this.activatedRoute.params.subscribe(params => {
-      this.userInfo = this.authService.userInfo;
-      if (this.userInfo == null) {
+      if (this.authService.userInfo == null) {
         this.router.navigate(['']);
       } else {
-        this.courseId = params['courseId'];
+        this.courseId = params.courseId;
+        this.userInfo = {admin: params.admin, uid: params.uid, name: params.name, email: params.email, deleted: params.deleted};
         this.course = this.courseService.getCourseById(this.courseId);
         this.phases = this.courseService.getPhasesByCourseId(this.courseId, this.userInfo.uid) as Observable<PhaseInfo[]>;
       }
     });
   }
-
-  ngOnDestroy() {
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
-  }
-
-  onChange(value: PhaseInfo ) {
-    console.log('selected phase id = ' + value.id);
-    this.selectedPhase = value;
-  }
-
-  onClick() {
-    this.courseService.startPhase(this.userInfo.uid, this.selectedPhase);
-    this.router.navigate(['study', this.selectedPhase.id], {queryParams: {courseId: this.courseId}});
-  }
-
   onClickBack() {
-    this.router.navigate(['']);
+    this.router.navigate(['user-status', this.userInfo]);
   }
 }

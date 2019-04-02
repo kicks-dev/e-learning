@@ -1,0 +1,24 @@
+<h4>
+  統計情報
+</h4>
+<mat-divider></mat-divider>
+<div>
+  <ngx-charts-bar-vertical-stacked
+  [view]="view"
+  [scheme]="scheme"
+  [legend]="'true'"
+  [legendTitle]="'コース'"
+  [xAxis]="'true'"
+  [yAxis]="'true'"
+  [showGridLines]="'true'"
+  [showXAxisLabel]="'true'"
+  [showYAxisLabel]="'true'"
+  [results]="userStats">
+  </ngx-charts-bar-vertical-stacked>
+</div>
+<!-- <div *ngFor="let userStat of userStats">
+  <p>{{userStat.name}}</p>
+  <div *ngFor="let data of userStat.series">
+    <p>name : {{data.name}}  / value : {{data.value}}</p>
+  </div>
+</div> -->
