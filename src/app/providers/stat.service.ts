@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { map, mergeMap, concatMap } from 'rxjs/operators';
+import { map, mergeMap, concatMap, take } from 'rxjs/operators';
 import { PhaseInfo } from '../interface/phase-info';
 import { UserStat, Series } from '../interface/user-info';
 import { CourseInfo } from '../interface/course-info';
@@ -18,7 +18,7 @@ export class StatService {
     this.statObservable = this.statSubject.asObservable();
   }
   setStatObservable = (observer) => {
-    this.statObservable.subscribe({next: () => observer()});
+    return this.statObservable.subscribe({next: () => observer()});
   }
   /**
    * ユーザごとの完了コースとフェーズ数
@@ -27,11 +27,11 @@ export class StatService {
     return this.afs.collection<UserStat>('users', ref => ref.where('deleted', '==', false)).valueChanges().pipe(
       map(users => users.map(user => {
         user.series = [];
-        this.afs.collection<CourseInfo>('courses').valueChanges().pipe(
+        this.afs.collection<CourseInfo>('courses').valueChanges().pipe(take(1)).pipe(
           map(courses => courses.map( course => {
             console.log('user = ' + user.name + ' course id = ' + course.id);
             user.series.push({name: course.id, value: 0});
-            this.afs.collection<PhaseInfo>('attendedPhases/' + user.uid + '/phases').valueChanges().pipe(
+            this.afs.collection<PhaseInfo>('attendedPhases/' + user.uid + '/phases').valueChanges().pipe(take(1)).pipe(
               map(phases => phases.map( phase => {
                 console.log(' attended user = ' + user.name + ' course id = ' + course.id + ' attended courseId = ' + phase.courseId);
                 if (!phase.courseId) {
