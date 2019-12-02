@@ -5,6 +5,7 @@ import { CourseInfo } from '../../interface/course-info';
 import { CourseService } from '../../providers/course.service';
 import { UserInfo } from '../../interface/user-info';
 import { AuthService } from '../../providers/auth.service';
+import { UserService } from '../../providers/user.service';
 
 @Component({
   selector: 'app-main',
@@ -13,29 +14,32 @@ import { AuthService } from '../../providers/auth.service';
 })
 export class MainComponent implements OnInit, OnDestroy {
 
-  courses: Observable<CourseInfo[]>;
-  private userInfo: UserInfo;
-  private getUserSubscription: Subscription;
 
-  constructor(private router: Router, private courseService: CourseService, private authService: AuthService) {
-    this.getUserSubscription = this.authService.setGetUserObserver(this.getCourses);
+  userInfoSubscription: Subscription;
+  constructor(
+    private router: Router,
+    private courseService: CourseService,
+    private authService: AuthService,
+    private userService: UserService) {
   }
 
   ngOnInit() {
-    // フェーズから戻った場合
-    const userInfo = this.authService.userInfo;
-    if ( userInfo ) {
-      this.userInfo = userInfo;
-      this.courses = this.courseService.getCourses(userInfo.uid);
+    console.log('main.component ngOnInit called');
+    if (!this.authService.auth) {
+      this.router.navigate(['login']);
+    } else {
+      this.userInfoSubscription = this.userService.getUserInfoByEmail(this.authService.auth.email).subscribe( user => {
+        if (user && user.deleted) {
+          alert('このユーザは削除されています。');
+          this.authService.logout();
+        } else {
+          this.courseService.getCourses(user.uid);
+        }
+      });
     }
   }
   ngOnDestroy = () => {
-    this.getUserSubscription.unsubscribe();
-  }
-  getCourses = () => {
-    console.log('getCourses called');
-    this.userInfo = this.authService.userInfo;
-    this.courses = this.courseService.getCourses(this.userInfo.uid);
+    this.userInfoSubscription.unsubscribe();
   }
   onClick(course: CourseInfo) {
     console.log('selected course = ' + course.title);

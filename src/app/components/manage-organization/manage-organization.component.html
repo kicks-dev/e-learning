@@ -1,0 +1,33 @@
+<h4>
+  組織管理 
+</h4>
+<mat-divider></mat-divider>
+<h6>
+  組織の登録、削除等を行います。
+</h6>
+<button color="primary" class="button-new" mat-raised-button (click)="onClickRegister()">新規登録</button>
+<button color="primary" class="button-delete" [disabled]="selection.selected.length === 0" mat-raised-button (click)="onClickEdit()">編集</button>
+<div>
+  <!-- <tabel mat-table [dataSource]="organizationList" class="mat-elevation-z8 organization-table">
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let row" class="selected-column">
+        <mat-chheckbox (click)="$event.stopPropagation()" (chhange)="Seent ? selection.toggle(row) : null" [chhecked]="selection.isSelected(row)">
+        </mat-chheckbox>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> 名前 </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> メールアドレス </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+    <ng-container matColumnDef="deleted">
+      <th mat-header-cell *matHeaderCellDef> 削除 </th>
+      <td mat-cell *matCellDef="let element"><mat-checkbox [checked]="element.deleted" (change)="onDeleteChecked($event, element.email)"></mat-checkbox></td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  </tabel> -->
+</div>

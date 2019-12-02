@@ -6,16 +6,19 @@ import { UserStat, Series } from '../interface/user-info';
 import { CourseInfo } from '../interface/course-info';
 import { UserService } from './user.service';
 import { Subject } from 'rxjs';
-import { CourseService } from './course.service';
 @Injectable({
   providedIn: 'root'
 })
 export class StatService {
   statSubject;
   statObservable;
-  constructor(private afs: AngularFirestore) {
+  authUser;
+  constructor(
+    private userService: UserService,
+    private afs: AngularFirestore) {
     this.statSubject = new Subject();
     this.statObservable = this.statSubject.asObservable();
+    this.authUser = this.userService.userInfo;
   }
   setStatObservable = (observer) => {
     return this.statObservable.subscribe({next: () => observer()});
@@ -24,7 +27,8 @@ export class StatService {
    * ユーザごとの完了コースとフェーズ数
    */
   getTotalFinishedCoursesByUser = () => {
-    return this.afs.collection<UserStat>('users', ref => ref.where('deleted', '==', false)).valueChanges().pipe(
+    return this.afs.collection<UserStat>('users', ref =>
+    ref.where('deleted', '==', false).where('organization_id', '==', this.authUser.organization_id)).valueChanges().pipe(
       map(users => users.map(user => {
         user.series = [];
         this.afs.collection<CourseInfo>('courses').valueChanges().pipe(take(1)).pipe(

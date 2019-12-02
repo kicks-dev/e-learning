@@ -7,28 +7,33 @@ import * as firebase from 'firebase/app';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { from, Subscription, Observable, Subject } from 'rxjs';
+import { AUTOCOMPLETE_PANEL_HEIGHT } from '@angular/material';
 
-const EMAIL = 'email';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  public email: string;
-  public userInfo: UserInfo;
   private secondaryApp: firebase.app.App;
 
   private getUserSubject: Subject<any>;
   private getUserObservable: Observable<any>;
+  public auth;
 
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {
+    console.log('authservice constructor called');
     this.secondaryApp = firebase.initializeApp(environment.firebase, 'Secondary');
     this.getUserSubject = new Subject();
     this.getUserObservable = this.getUserSubject.asObservable();
   }
 
   hasAuth() {
-    return this.afAuth.authState;
+    return new Promise((resolve, reject) => {
+      this.afAuth.authState.subscribe( auth => {
+        this.auth = auth;
+        resolve();
+      });
+    });
   }
 
   setGetUserObserver = (observer) => {
@@ -37,10 +42,8 @@ export class AuthService {
   }
 
   loginWithEmail(loginInfo: LoginInfo) {
-
     console.log('loginInfo.email = ' + loginInfo.email);
-    sessionStorage.setItem(EMAIL, loginInfo.email);
-    this.email = loginInfo.email;
+    sessionStorage.setItem('email', loginInfo.email);
     return this.afAuth.auth.signInWithEmailAndPassword(loginInfo.email, loginInfo.password);
   }
   setPersisitence() {
@@ -56,15 +59,4 @@ export class AuthService {
     this.afAuth.auth.signOut();
   }
 
-  getUserInfoByEmail(email: string) {
-    console.log('getUserInfo email = ' + email);
-    sessionStorage.setItem(EMAIL, email);
-    this.email = email;
-    return this.afs.doc<UserInfo>('users/' + email).valueChanges().pipe(map(user => {
-      this.userInfo = user;
-      console.log('call getUser next');
-      this.getUserSubject.next();
-      return user;
-    }));
-  }
 }

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
@@ -40,6 +40,9 @@ import { UserRegisterSnackComponent } from './snack-bars/user-register-snack/use
 import { UserStatusComponent } from './components/user-status/user-status.component';
 import { UserPhaseComponent } from './components/user-phase/user-phase.component';
 import { StatComponent } from './components/stat/stat.component';
+import { ManageOrganizationComponent } from './components/manage-organization/manage-organization.component';
+import { AuthService } from './providers/auth.service';
+import { UserService } from './providers/user.service';
 
 const appRoutes: Routes = [
   { path: '', component: MainComponent },
@@ -49,9 +52,15 @@ const appRoutes: Routes = [
   { path: 'manage-user', component: ManageUserComponent},
   { path: 'user-status', component: UserStatusComponent},
   { path: 'user-phase/:courseId', component: UserPhaseComponent},
-  { path: 'stat', component: StatComponent}
+  { path: 'stat', component: StatComponent},
+  { path: 'manage-organization', component: ManageOrganizationComponent}
 ];
-
+export function initAuth(authService: AuthService) {
+  console.log(' init auth called');
+  return (): Promise<any> => {
+    return authService.hasAuth();
+  };
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,7 +74,8 @@ const appRoutes: Routes = [
     UserRegisterSnackComponent,
     UserStatusComponent,
     UserPhaseComponent,
-    StatComponent
+    StatComponent,
+    ManageOrganizationComponent
   ],
   imports: [
     BrowserModule,
@@ -99,7 +109,9 @@ const appRoutes: Routes = [
     NgxChartsModule
   ],
   entryComponents: [UploadDialogComponent, UserRegisterDialogComponent],
-  providers: [],
+  providers: [AuthService, UserService, {
+    provide: APP_INITIALIZER, useFactory: initAuth, deps: [AuthService], multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

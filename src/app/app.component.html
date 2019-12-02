@@ -6,8 +6,8 @@
 </mat-toolbar>
 
 <div class="w3-container main-container">
-  <div class="w3-row text-right" [hidden]="userInfo==null">
-    <span>{{(userInfo | async)?.name}}様</span>
+  <div class="w3-row text-right" [hidden]="userService.userInfo$ == null">
+    <span>{{(userService.userInfo$ | async)?.organization?.name}}{{(userService.userInfo$ | async)?.name}}様</span>
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>more_vert</mat-icon>
     </button>
@@ -16,7 +16,7 @@
         <mat-icon>exit_to_app</mat-icon>
         <span>ログアウト</span>
       </button>
-      <div *ngIf="(userInfo | async)?.admin">
+      <div *ngIf="userService.userInfo?.admin">
         <button mat-menu-item (click)="onClickManageUser()" *ngIf="displayService.presentDisplayMode!==displayService.displayMode.USER_MANAGE">
           <mat-icon>people</mat-icon>
           <span>ユーザ管理画面へ</span>
@@ -30,7 +30,12 @@
           <span>統計画面へ</span>
         </button>
       </div>
-      
+      <div *ngIf="userService.userInfo?.admin">
+        <button mat-menu-item (click)="onClickManageOrganization()" *ngIf="displayService.presentDisplayMode!==displayService.displayMode.ORGANIZATION_MANAGE">
+          <mat-icon>people</mat-icon>
+          <span>組織管理画面へ</span>
+        </button>
+      </div>
     </mat-menu>
   </div>
   <router-outlet></router-outlet>

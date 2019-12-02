@@ -25,14 +25,14 @@ export class UserStatusComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subRoute = this.activatedRoute.params.subscribe(params => {
-      if (this.authService.userInfo == null) {
+      if (this.userService.userInfo == null) {
         this.router.navigate(['']);
       } else {
         this.userInfo = params as UserInfo;
         if (this.userInfo == null) {
           this.router.navigate(['manage-user']);
         } else {
-          this.courseList = this.courseService.getCourses(params.uid);
+          this.courseService.getCourses(params.uid);
         }
       }
     });

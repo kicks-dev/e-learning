@@ -47,12 +47,18 @@ export class UserRegisterDialogComponent implements OnInit {
         console.log('result = ' + result);
         const uid = result.user.uid;
         const email = result.user.email;
-        this.userService.registerUser(this.name.value, email, uid, this.admin.value).subscribe( res => {
-          console.log('res = ' + res);
-          this.registering = false;
-          this.dialogRef.close();
-          this.snackBar.openFromComponent(UserRegisterSnackComponent, {
-            duration: 1000,
+        this.userService.registerUser(
+          this.name.value,
+          email,
+          uid,
+          this.admin.value,
+          this.userService.userInfo.organization_id
+          ).subscribe( res => {
+            console.log('res = ' + res);
+            this.registering = false;
+            this.dialogRef.close();
+            this.snackBar.openFromComponent(UserRegisterSnackComponent, {
+              duration: 1000,
           });
         });
       },

@@ -6,6 +6,7 @@ import { CourseInfo } from '../../interface/course-info';
 import { PhaseInfo } from '../../interface/phase-info';
 import { UserInfo } from '../../interface/user-info';
 import { AuthService } from '../../providers/auth.service';
+import { UserService } from '../../providers/user.service';
 
 @Component({
   selector: 'app-phase',
@@ -25,12 +26,14 @@ export class PhaseComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private courseService: CourseService,
+    private userService: UserService,
     private authService: AuthService) {}
 
   ngOnInit() {
     this.sub = this.activatedRoute.params.subscribe(params => {
-      this.userInfo = this.authService.userInfo;
+      this.userInfo = this.userService.userInfo;
       if (this.userInfo == null) {
+        console.log('ngOnInit userInfo === null');
         this.router.navigate(['']);
       } else {
         this.courseId = params['courseId'];

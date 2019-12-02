@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserInfo } from '../../interface/user-info';
+import { UserInfo, UserInfoForList } from '../../interface/user-info';
 import { UserService } from '../../providers/user.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material';
@@ -15,9 +15,9 @@ import { Router } from '@angular/router';
 })
 export class ManageUserComponent implements OnInit {
 
-  userList;
+  userList: MatTableDataSource<UserInfoForList>;
   displayedColumns: string[];
-  selection: SelectionModel<UserInfo>;
+  selection: SelectionModel<UserInfoForList>;
   constructor(
     private router: Router,
     private userService: UserService,
@@ -26,10 +26,11 @@ export class ManageUserComponent implements OnInit {
     }
 
   ngOnInit() {
+    console.log('ngOnInit called');
     this.userService.getUserList().subscribe(data => {
-      this.userList = new MatTableDataSource<UserInfo>(data);
+      this.userList = new MatTableDataSource<UserInfoForList>(data);
     });
-    this.selection = new SelectionModel<UserInfo>(true, []);
+    // this.selection = new SelectionModel<UserInfoForList>(true, []);
     this.displayedColumns = ['select', 'name', 'email', 'deleted'];
   }
   onClickRegister() {
@@ -43,8 +44,8 @@ export class ManageUserComponent implements OnInit {
     this.userService.deleteUser(event.checked, email);
   }
   onClickShowStatus = () => {
-    const selectedUser = this.selection.selected[0];
-    console.log('selected user name = ' + selectedUser.name);
-    this.router.navigate(['user-status', selectedUser]);
+    // const selectedUser = this.selection.selected[0];
+    // console.log('selected user name = ' + selectedUser.name);
+    // this.router.navigate(['user-status', selectedUser]);
   }
 }

@@ -6,7 +6,7 @@
   学習したいコースをクリックしてください。
 </p>
 <mat-list>
-  <mat-list-item *ngFor="let course of courses | async">
+  <mat-list-item *ngFor="let course of courseService?.courses$ | async">
     <mat-icon matListIcon>folder</mat-icon>
     <button mat-button (click)="onClick(course)" matTooltip={{course.content}} matTooltipPosition="after"> {{course.title}}</button>
     <span matTooltip="全フェーズ数と完了数です">({{course.finishCount}} / {{course.phaseCount}})</span>

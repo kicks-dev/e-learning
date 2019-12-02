@@ -6,6 +6,7 @@ import { CourseInfo } from '../../interface/course-info';
 import { PhaseInfo } from '../../interface/phase-info';
 import { UserInfo } from '../../interface/user-info';
 import { AuthService } from '../../providers/auth.service';
+import { UserService } from '../../providers/user.service';
 @Component({
   selector: 'app-user-phase',
   templateUrl: './user-phase.component.html',
@@ -18,27 +19,25 @@ export class UserPhaseComponent implements OnInit {
   private sub: Subscription;
   private courseId: string;
   private selectedPhase: PhaseInfo;
-  private userInfo: UserInfo;
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private courseService: CourseService,
-    private authService: AuthService) {}
+    private userService: UserService) {}
 
 
   ngOnInit() {
     this.sub = this.activatedRoute.params.subscribe(params => {
-      if (this.authService.userInfo == null) {
+      if (this.userService.userInfo == null) {
         this.router.navigate(['']);
       } else {
         this.courseId = params.courseId;
-        this.userInfo = {admin: params.admin, uid: params.uid, name: params.name, email: params.email, deleted: params.deleted};
         this.course = this.courseService.getCourseById(this.courseId);
-        this.phases = this.courseService.getPhasesByCourseId(this.courseId, this.userInfo.uid) as Observable<PhaseInfo[]>;
+        this.phases = this.courseService.getPhasesByCourseId(this.courseId, this.userService.userInfo.uid) as Observable<PhaseInfo[]>;
       }
     });
   }
   onClickBack() {
-    this.router.navigate(['user-status', this.userInfo]);
+    this.router.navigate(['user-status', this.userService.userInfo]);
   }
 }

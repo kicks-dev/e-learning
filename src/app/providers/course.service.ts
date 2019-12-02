@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { CourseInfo } from '../interface/course-info';
 import { PhaseInfo } from '../interface/phase-info';
 import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -10,10 +11,12 @@ import { map } from 'rxjs/operators';
 })
 export class CourseService {
 
+  courses$: Observable<CourseInfo[]>;
+
   constructor(private afs: AngularFirestore) {}
 
   getCourses(uid: string) {
-    return this.afs.collection<CourseInfo>('courses').valueChanges().pipe(map(courses => {
+    this.courses$ = this.afs.collection<CourseInfo>('courses').valueChanges().pipe(map(courses => {
       courses.map(course => {
         this.afs.collection<PhaseInfo>('attendedPhases/' + uid + '/phases', ref => ref.where('courseId', '==', course.id))
         .valueChanges().pipe(map(phaseInfos => {

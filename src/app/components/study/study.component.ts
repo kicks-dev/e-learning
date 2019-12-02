@@ -6,12 +6,12 @@ import { CourseInfo } from '../../interface/course-info';
 import { PhaseInfo } from '../../interface/phase-info';
 import { PageInfo } from '../../interface/page-info';
 import { PdfService } from '../../providers/pdf.service';
-import { AuthService } from '../../providers/auth.service';
 
 import { PDFProgressData, PDFDocumentProxy } from 'pdfjs-dist';
 import { MatDialog } from '@angular/material';
 import { UploadDialogComponent } from '../upload-dialog/upload-dialog.component';
 import { finalize, map } from 'rxjs/operators';
+import { UserService } from '../../providers/user.service';
 
 export enum KEY_CODE {
 
@@ -46,7 +46,7 @@ export class StudyComponent implements OnInit, OnDestroy {
     private router: Router,
     private courseService: CourseService,
     private pdfService: PdfService,
-    private authService: AuthService,
+    private userService: UserService,
 
     public dialog: MatDialog
   ) { }
@@ -154,14 +154,14 @@ export class StudyComponent implements OnInit, OnDestroy {
   }
   onClickUpload() {
     console.log('onClickUpload called.');
-    const filePath = this.authService.userInfo.uid + '/' + this.courseId + '/' + this.phaseId + '.zip';
+    const filePath = this.userService.userInfo.uid + '/' + this.courseId + '/' + this.phaseId + '.zip';
     const dialogRef = this.dialog.open(UploadDialogComponent,
       {height: '250px', width: '400px',
       data: {uploadFile: this.uploadFile, filePath: filePath}});
     dialogRef.afterClosed().pipe( finalize(() => {
       console.log('upload completed');
       this.onClickBack();
-      this.courseService.completePhase(this.courseId, this.phaseId, this.authService.userInfo.uid);
+      this.courseService.completePhase(this.courseId, this.phaseId, this.userService.userInfo.uid);
     })).subscribe();
   }
 }
